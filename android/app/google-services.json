@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "797263315299",
+    "firebase_url": "https://squeeze-a22a6.firebaseio.com",
+    "project_id": "squeeze-a22a6",
+    "storage_bucket": "squeeze-a22a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797263315299:android:784a3bb68147639bfb5356",
+        "android_client_info": {
+          "package_name": "com.squeeze_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797263315299-0uf6r1vhnrgiaqkm741qb2t2gehbfod2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdtQd7_yEwqNCYKc82H03jomISOc2zXxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797263315299-0uf6r1vhnrgiaqkm741qb2t2gehbfod2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "797263315299-18otegmcl423it11cnknipsa2vludnla.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.squeezeApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
