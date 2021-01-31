@@ -1,106 +1,3 @@
-// import React, { Component } from 'react';
-// import {
-//   StyleSheet,
-//   View,
-//   Platform
-// } from 'react-native';
-// import MapView, { Heatmap, PROVIDER_GOOGLE } from 'react-native-maps';
-
-// export default class HomeScreen extends Component {
-
-//   static navigationOptions = {
-//     title: 'New York',
-//   };
-
-//   state = {
-//     initialPosition: {
-//       latitude: 40.7143,
-//       longitude: -74.0042,
-//       latitudeDelta: 0.09,
-//       longitudeDelta: 0.035
-//     }
-//   }
-
-//   points = [
-//     { latitude: 40.7828, longitude: -74.0065, weight: 1 },
-//     { latitude: 41.7121, longitude: -74.0042, weight: 1 },
-//     { latitude: 40.7102, longitude: -75.0060, weight: 1 },
-//     { latitude: 40.7123, longitude: -74.0052, weight: 1 },
-//     { latitude: 40.7032, longitude: -74.0042, weight: 1 },
-//     { latitude: 40.7198, longitude: -74.0024, weight: 1 },
-//     { latitude: 41.7223, longitude: -74.0053, weight: 1 },
-//     { latitude: 40.7181, longitude: -74.0042, weight: 1 },
-//     { latitude: 40.7124, longitude: -74.0023, weight: 1 },
-//     { latitude: 40.7648, longitude: -74.0012, weight: 1 },
-//     { latitude: 41.7128, longitude: -74.0027, weight: 1 },
-//     { latitude: 40.7223, longitude: -74.0153, weight: 1 },
-//     { latitude: 40.7193, longitude: -74.0052, weight: 1 },
-//     { latitude: 40.7241, longitude: -75.0013, weight: 1 },
-//     { latitude: 41.7518, longitude: -74.0085, weight: 1 },
-//     { latitude: 40.7599, longitude: -74.0093, weight: 1 },
-//     { latitude: 41.7523, longitude: -74.0021, weight: 1 },
-//     { latitude: 40.7342, longitude: -74.0152, weight: 1 },
-//     { latitude: 40.7484, longitude: -75.0042, weight: 1 },
-//     { latitude: 40.7929, longitude: -75.0023, weight: 1 },
-//     { latitude: 40.7292, longitude: -74.0013, weight: 1 },
-//     { latitude: 40.7940, longitude: -74.0048, weight: 1 },
-//     { latitude: 40.7874, longitude: -74.0052, weight: 1 },
-//     { latitude: 40.7824, longitude: -74.0024, weight: 1 },
-//     { latitude: 40.7232, longitude: -74.0094, weight: 1 },
-//     { latitude: 41.7342, longitude: -74.0152, weight: 1 },
-//     { latitude: 41.7484, longitude: -74.0012, weight: 1 },
-//     { latitude: 41.7929, longitude: -74.0073, weight: 1 },
-//     { latitude: 41.7292, longitude: -74.0013, weight: 1 },
-//     { latitude: 41.7940, longitude: -74.0058, weight: 1 },
-//     { latitude: 41.7874, longitude: -74.0352, weight: 1 },
-//     { latitude: 41.7824, longitude: -74.0024, weight: 1 },
-//     { latitude: 41.7232, longitude: -74.0094, weight: 1 },
-//     { latitude: 41.0342, longitude: -75.0152, weight: 1 },
-//     { latitude: 41.0484, longitude: -75.0012, weight: 1 },
-//     { latitude: 41.0929, longitude: -75.0073, weight: 1 },
-//     { latitude: 41.0292, longitude: -74.0013, weight: 1 },
-//     { latitude: 41.0940, longitude: -74.0068, weight: 1 },
-//     { latitude: 41.0874, longitude: -74.0052, weight: 1 },
-//     { latitude: 41.0824, longitude: -74.0024, weight: 1 },
-//     { latitude: 41.0232, longitude: -74.0014, weight: 1 }
-//   ];
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <MapView
-//           provider={PROVIDER_GOOGLE}
-//           ref={map => this._map = map}
-//           style={styles.map}
-//           initialRegion={this.state.initialPosition}>
-//           <Heatmap
-//             points={this.points}
-//             radius={40}
-//             opacity={1}
-//             gradient={{
-//               colors: ["black", "purple", "red", "orange", "white"],
-//               startPoints: Platform.OS === 'ios' ? [0.01, 0.04, 0.1, 0.45, 0.5] :
-//                 [0.1, 0.25, 0.5, 0.75, 1],
-//               colorMapSize: 2000
-//             }}
-//           >
-//           </Heatmap>
-//         </MapView>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     ...StyleSheet.absoluteFillObject
-//   },
-//   map: {
-//     ...StyleSheet.absoluteFillObject
-//   }
-// });
-
-
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -124,6 +21,8 @@ import Carousel from 'react-native-snap-carousel';
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
 firestore.settings(settings);
+
+const normalDatabseRef = firestore.collection("markers").doc("lBulS2oSNrpFPiH7wcIe").collection("Barcelona");
 
 export default class HomeScreen extends Component {
 
@@ -201,18 +100,11 @@ export default class HomeScreen extends Component {
 
 
   _getNormalData = () => {
-
-
-    const normalDatabseRef = firestore.collection("markers").doc("lBulS2oSNrpFPiH7wcIe").collection("Barcelona");
-
-    console.log('Is entering here??', normalDatabseRef)
-
     normalDatabseRef.get().then(snapshot => {
 
       snapshot.forEach(doc => {
         if (typeof doc.data().name && typeof doc.data().name === "string") {
           if (doc.exists) {
-            console.log('THE DATA IS--->', doc.data())
             let coordinatesFirebase = {
               name: doc.data().name,
               latitude: doc.data().location.latitude,
@@ -228,13 +120,13 @@ export default class HomeScreen extends Component {
       });
 
     });
-
-
   }
 
 
   state = {
     markers: [],
+    atuallyRoute: false,
+    coordinatesRoute: [],
     coordinates: [
       // { name: 'Catedral de la santa cruz', latitude: 41.3841522663854, longitude: 2.175972757426706, image: require('../assets/burger.jpg') },
       // { name: 'casa del arcediano', latitude: 41.384040430254366, longitude: 2.1758317650066337, image: require('../assets/pizza.jpg') },
@@ -329,15 +221,61 @@ export default class HomeScreen extends Component {
 
 
   onMarkerPressed = (location, index) => {
-    console.log('what is index and location???', index, location )
-    this._map.animateToRegion({
-      latitude: location.latitude,
-      longitude: location.longitude,
-      latitudeDelta: 0.09,
-      longitudeDelta: 0.035
-    });
+    console.log('what is index and location???', index, location)
+    let newArrRoute = []
+    if (location.type === "route") {
+      normalDatabseRef.get().then(snapshot => {
 
-    this._carousel.snapToItem(index);
+        snapshot.forEach(doc => {
+          if (doc.data().name && typeof doc.data().name === "string" && doc.data().name === location.name) {
+            if (doc.exists) {
+              console.log('WHAT DATA HAS THIS??', doc.data(), ' and what is location? --> ', doc.data().location.latitude)
+              doc.data().routes.forEach(element => {
+                console.log('WHAT ELEMENT IS??? ', element)
+                for (const key in element) {
+                  if (element.hasOwnProperty(key)) {
+                    const point = element[key];
+                    console.log('WHAT KEY IS???', point.location.latitude, point.location.longitude , point.image )
+                    newArrRoute = [
+                      ...newArrRoute,
+                      {
+                        latitude: point.location.latitude,
+                        longitude: point.location.longitude,
+                        image: point.image ,
+                        name: key,
+                        type: "point"
+                      }
+                    ]
+                  }
+                }
+                // let coordinatesFirebase = {
+                //   name: doc.data().name,
+                //   latitude: doc.data().location.latitude,
+                //   longitude: doc.data().location.longitude,
+                //   image: doc.data().image,
+                //   type: doc.data().type
+                // };
+                // this.setState({ coordinates: [...this.state.coordinates, coordinatesFirebase] })
+              });
+              console.log('THE FINAL RESULT IS?????', newArrRoute, [location])
+              this.setState({ atuallyRoute: true, coordinatesRoute: newArrRoute})
+            }
+            else console.log('El documento no existe');
+            console.log('-----------------------------------------------');
+          }
+        });
+
+      });
+
+      this._map.animateToRegion({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.09,
+        longitudeDelta: 0.035
+      });
+
+      this._carousel.snapToItem(index);
+    }
   }
 
   renderCarouselItem = ({ item }) =>
@@ -351,60 +289,117 @@ export default class HomeScreen extends Component {
     </View>
 
   render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          ref={map => this._map = map}
-          showsUserLocation={true}
-          style={styles.map}
-          initialRegion={this.state.initialPosition}>
+    if (this.state.atuallyRoute) {
+      return (
+        <View style={styles.container}>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            ref={map => this._map = map}
+            showsUserLocation={true}
+            style={styles.map}
+            initialRegion={this.state.initialPosition}>
 
-          {/* <Polygon
-            coordinates={this.state.coordinates}
-            fillColor={'rgba(100, 100, 200, 0.3)'}
-          /> */}
-          {/* <Circle
-            center={{ latitude: 41.3841522663854, longitude: 2.175972757426706 }}
-            radius={100}
-            fillColor={'rgba(200, 300, 200, 0.5)'}
-          /> */}
-          {this.state.coordinates.map((marker, index) => (
-            <>
-              <Marker
-                key={marker.name}
-                ref={ref => this.state.markers[index] = ref}
-                onPress={() => this.onMarkerPressed(marker, index)}
-                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-              >
-                {/* <Callout>
-                    <Text>{this.state.nameMarker}</Text>
-                  </Callout> */}
+            {/* <Polygon
+              coordinates={this.state.coordinates}
+              fillColor={'rgba(100, 100, 200, 0.3)'}
+            /> */}
+            {/* <Circle
+              center={{ latitude: 41.3841522663854, longitude: 2.175972757426706 }}
+              radius={100}
+              fillColor={'rgba(200, 300, 200, 0.5)'}
+            /> */}
+            {this.state.coordinatesRoute && this.state.coordinatesRoute.map((marker, index) => (
+              <>
+                <Marker
+                  key={marker.name}
+                  ref={ref => this.state.markers[index] = ref}
+                  onPress={() => this.onMarkerPressed(marker, index)}
+                  coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                >
+                  {/* <Callout>
+                      <Text>{this.state.nameMarker}</Text>
+                    </Callout> */}
 
-                <Image
-                  style={styles.logo}
-                  source={{ uri: marker.image }}
-                  style={{ height: 35, width: 25 }}
-                />
-              </Marker>
-            </>
-          ))
-          }
+                  <Image
+                    style={styles.logo}
+                    source={{ uri: marker.image }}
+                    style={{ height: 35, width: 25 }}
+                  />
+                </Marker>
+              </>
+            ))
+            }
 
 
-        </MapView>
-        <Carousel
-          ref={(c) => { this._carousel = c; }}
-          data={this.state.coordinates}
-          containerCustomStyle={styles.carousel}
-          renderItem={this.renderCarouselItem}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={300}
-          removeClippedSubviews={false}
-          onSnapToItem={(index) => this.onCarouselItemChange(index)}
-        />
-      </View>
-    );
+          </MapView>
+          <Carousel
+            ref={(c) => { this._carousel = c; }}
+            data={this.state.coordinatesRoute}
+            containerCustomStyle={styles.carousel}
+            renderItem={this.renderCarouselItem}
+            sliderWidth={Dimensions.get('window').width}
+            itemWidth={300}
+            removeClippedSubviews={false}
+            onSnapToItem={(index) => this.onCarouselItemChange(index)}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            ref={map => this._map = map}
+            showsUserLocation={true}
+            style={styles.map}
+            initialRegion={this.state.initialPosition}>
+
+            {/* <Polygon
+              coordinates={this.state.coordinates}
+              fillColor={'rgba(100, 100, 200, 0.3)'}
+            /> */}
+            {/* <Circle
+              center={{ latitude: 41.3841522663854, longitude: 2.175972757426706 }}
+              radius={100}
+              fillColor={'rgba(200, 300, 200, 0.5)'}
+            /> */}
+            {this.state.coordinates && this.state.coordinates.map((marker, index) => (
+              <>
+                <Marker
+                  key={marker.name}
+                  ref={ref => this.state.markers[index] = ref}
+                  onPress={() => this.onMarkerPressed(marker, index)}
+                  coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                >
+                  {/* <Callout>
+                      <Text>{this.state.nameMarker}</Text>
+                    </Callout> */}
+
+                  <Image
+                    style={styles.logo}
+                    source={{ uri: marker.image }}
+                    style={{ height: 35, width: 25 }}
+                  />
+                </Marker>
+              </>
+            ))
+            }
+
+
+          </MapView>
+          <Carousel
+            ref={(c) => { this._carousel = c; }}
+            data={this.state.coordinates}
+            containerCustomStyle={styles.carousel}
+            renderItem={this.renderCarouselItem}
+            sliderWidth={Dimensions.get('window').width}
+            itemWidth={300}
+            removeClippedSubviews={false}
+            onSnapToItem={(index) => this.onCarouselItemChange(index)}
+          />
+        </View>
+      );
+    }
   }
 }
 
